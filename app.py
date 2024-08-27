@@ -217,5 +217,28 @@ def deactivate_employee(employeeId):
     except Exception as e:
         return handle_internal_error(e)
 
+def init_db():
+    conn = sqlite3.connect('employees.db')
+    cursor = conn.cursor()
+    
+    # Create employees table
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS employees (
+            id TEXT PRIMARY KEY,
+            name TEXT NOT NULL,
+            position TEXT NOT NULL,
+            department TEXT NOT NULL,
+            contact TEXT,
+            active BOOLEAN NOT NULL,
+            performance_reviews TEXT
+        )
+    ''')
+    
+    conn.commit()
+    conn.close()
+
 if __name__ == "__main__":
+    # Initialize the database
+    init_db()
+    # Run the Flask app
     app.run(debug=True)
