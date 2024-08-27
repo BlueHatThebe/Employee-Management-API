@@ -20,14 +20,13 @@
             <input type="text" id="contact" placeholder="Contact" />
             <button type="submit">Add Employee</button>
         </form>
-        
     </div>
 
     <!-- Update Employee Section -->
     <div id="update-employee-div" style="display: none;">
         <h2>Update Employee</h2>
         <form id="update-employee-form">
-            <input type="text" id="update-id" placeholder="ID" required>
+            <input type="text" id="update-id" placeholder="Employee ID" required>
             <input type="text" id="update-name" placeholder="Name">
             <input type="text" id="update-position" placeholder="Position">
             <input type="text" id="update-department" placeholder="Department">
@@ -62,10 +61,11 @@
         <ul id="employee-list-ul"></ul>
     </div>
 
-    <button id="show-update-form">Update Employee</button>
+    <!-- Centered Update Employee Button -->
+    <div class="center-button-container">
+        <button id="show-update-form">Update Employee</button>
+    </div>
 
     <script src="/static/script.js"></script>
 </body>
 </html>
-
-

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Details</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <h1>Employee Details</h1>
+    <div id="employee-details-div">
+        <!-- Employee details will be dynamically inserted here -->
+    </div>
+    <button id="back-to-list">Back to Home</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const employeeId = urlParams.get('id');
+            if (employeeId) {
+                 fetch(`/api/v1/employees/${employeeId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(employee => {
+                const detailsDiv = document.getElementById('employee-details-div');
+                console.log(employee);
+
+                // Ensure performance_reviews is an array
+
+                // const reviewsList = reviews.map(review => `<li>${review}</li>`).join('');
+                detailsDiv.innerHTML = `
+                    <p><strong>ID:</strong> ${employee.data.id}</p>
+                    <p><strong>Name:</strong> ${employee.data.name}</p>
+                    <p><strong>Position:</strong> ${employee.data.position}</p>
+                    <p><strong>Department:</strong> ${employee.data.department}</p>
+                    <p><strong>Contact:</strong> ${employee.data.contact}</p>
+                    <p><strong>Active:</strong> ${employee.data.active}</p>
+                    <h3>Performance Reviews</h3>
+                    <p>${employee.data.performance_reviews}</p>
+                `;
+            })
+            .catch(error => {
+                console.error('Error fetching employee data:', error);
+            });
+            }
+
+            document.getElementById('back-to-list').addEventListener('click', function() {
+                window.location.href = '/';
+            });
+        });
+    </script>
+</body>
+</html>
