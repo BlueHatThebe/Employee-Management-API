@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <h1>Employee Management</h1>
+
+    <!-- Add Employee Form -->
+    <div id="add-employee-div">
+        <h2>Add Employee</h2>
+        <form id="add-employee-form">
+            <input type="text" id="id" placeholder="ID" required />
+            <input type="text" id="name" placeholder="Name" required />
+            <input type="text" id="position" placeholder="Position" required />
+            <input type="text" id="department" placeholder="Department" required />
+            <input type="text" id="contact" placeholder="Contact" />
+            <button type="submit">Add Employee</button>
+        </form>
+        
+    </div>
+
+    <!-- Update Employee Section -->
+    <div id="update-employee-div" style="display: none;">
+        <h2>Update Employee</h2>
+        <form id="update-employee-form">
+            <input type="text" id="update-id" placeholder="ID" required>
+            <input type="text" id="update-name" placeholder="Name">
+            <input type="text" id="update-position" placeholder="Position">
+            <input type="text" id="update-department" placeholder="Department">
+            <input type="text" id="update-contact" placeholder="Contact">
+            <button type="submit">Update Employee</button>
+        </form>
+        <button id="cancel-update">Cancel</button>
+    </div>
+
+    <!-- Add Performance Review Form -->
+    <div id="add-review-div">
+        <h2>Add Performance Review</h2>
+        <form id="add-review-form">
+            <input type="text" id="review-id" placeholder="Employee ID" required>
+            <textarea id="review-text" placeholder="Performance Review" rows="4" required></textarea>
+            <button type="submit">Add Review</button>
+        </form>
+    </div>
+
+    <!-- Deactivate Employee Form -->
+    <div id="deactivate-employee-div">
+        <h2>Deactivate Employee</h2>
+        <form id="deactivate-employee-form">
+            <input type="text" id="deactivate-id" placeholder="Employee ID" required>
+            <button type="submit">Deactivate</button>
+        </form>
+    </div>
+
+    <!-- Employees List -->
+    <div id="employees-list-div">
+        <h2>Employees</h2>
+        <ul id="employee-list-ul"></ul>
+    </div>
+
+    <button id="show-update-form">Update Employee</button>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
+
+
