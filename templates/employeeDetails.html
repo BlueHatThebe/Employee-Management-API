@@ -4,27 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Details</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="/static/styles.css">
     
     <style>
         /* Center the heading */
         h3 {
             text-align: center;
-        }
-
-        /* Basic styling for the employee details section */
-        #employee-details-div {
-            margin: 20px;
-            font-family: Arial, sans-serif;
-        }
-
-        /* Basic button styling */
-        #back-to-list {
-            display: block;
-            margin: 20px auto;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
         }
     </style>
 </head>
@@ -49,6 +34,7 @@
                     })
                     .then(employee => {
                         const detailsDiv = document.getElementById('employee-details-div');
+                        console.log(employee);
 
                         // Ensure performance_reviews is an array and display them
                         const performanceReviews = Array.isArray(employee.data.performance_reviews)
