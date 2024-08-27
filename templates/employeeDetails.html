@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Details</title>
     <link rel="stylesheet" href="/static/styles.css">
+    <style>
+        /* Center the heading */
+        h3 {
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
     <h1>Employee Details</h1>
@@ -18,34 +24,45 @@
             const urlParams = new URLSearchParams(window.location.search);
             const employeeId = urlParams.get('id');
             if (employeeId) {
-                 fetch(`/api/v1/employees/${employeeId}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(employee => {
+                fetch(`/api/v1/employees/${employeeId}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(employee => {
+                        const detailsDiv = document.getElementById('employee-details-div');
+                        console.log(employee);
+
+                        // Ensure performance_reviews is an array and display them
+                        const performanceReviews = Array.isArray(employee.data.performance_reviews)
+                            ? employee.data.performance_reviews
+                            : [];
+
+                        const reviewsList = performanceReviews.length > 0
+                            ? performanceReviews.map(review => `<li>${review}</li>`).join('')
+                            : '<li>No performance reviews available.</li>';
+
+                        detailsDiv.innerHTML = `
+                            <p><strong>ID:</strong> ${employee.data.id}</p>
+                            <p><strong>Name:</strong> ${employee.data.name}</p>
+                            <p><strong>Position:</strong> ${employee.data.position}</p>
+                            <p><strong>Department:</strong> ${employee.data.department}</p>
+                            <p><strong>Contact:</strong> ${employee.data.contact}</p>
+                            <p><strong>Active:</strong> ${employee.data.active}</p>
+                            <h3>Performance Reviews</h3>
+                            <ul>${reviewsList}</ul>
+                        `;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching employee data:', error);
+                        const detailsDiv = document.getElementById('employee-details-div');
+                        detailsDiv.innerHTML = '<p>Error loading employee details.</p>';
+                    });
+            } else {
                 const detailsDiv = document.getElementById('employee-details-div');
-                console.log(employee);
-
-                // Ensure performance_reviews is an array
-
-                // const reviewsList = reviews.map(review => `<li>${review}</li>`).join('');
-                detailsDiv.innerHTML = `
-                    <p><strong>ID:</strong> ${employee.data.id}</p>
-                    <p><strong>Name:</strong> ${employee.data.name}</p>
-                    <p><strong>Position:</strong> ${employee.data.position}</p>
-                    <p><strong>Department:</strong> ${employee.data.department}</p>
-                    <p><strong>Contact:</strong> ${employee.data.contact}</p>
-                    <p><strong>Active:</strong> ${employee.data.active}</p>
-                    <h3>Performance Reviews</h3>
-                    <p>${employee.data.performance_reviews}</p>
-                `;
-            })
-            .catch(error => {
-                console.error('Error fetching employee data:', error);
-            });
+                detailsDiv.innerHTML = '<p>No employee ID provided.</p>';
             }
 
             document.getElementById('back-to-list').addEventListener('click', function() {
