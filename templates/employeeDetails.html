@@ -19,6 +19,12 @@
             display: inline-block;
             width: 150px;
         }
+        .status-active {
+            color: green;
+        }
+        .status-inactive {
+            color: red;
+        }
     </style>
 </head>
 <body>
@@ -35,6 +41,12 @@
         </div>
         <div class="employee-detail">
             <strong>Contact:</strong> <span>{{ employee.contact }}</span>
+        </div>
+        <div class="employee-detail">
+            <strong>Status:</strong> 
+            <span class="{{ 'status-active' if employee.active else 'status-inactive' }}">
+                {{ 'Active' if employee.active else 'Not Active' }}
+            </span>
         </div>
         <div class="employee-detail">
             <strong>Performance Reviews:</strong>
