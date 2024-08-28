@@ -2,8 +2,9 @@ from flask import Flask, send_from_directory, jsonify, request, render_template
 from flask_cors import CORS
 import sqlite3
 import json
+import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 CORS(app)
 
 # Database connection
@@ -47,7 +48,7 @@ def handle_internal_error(error):
 def serve_static(filename):
     if filename.endswith('.html'):
         return render_template(filename)
-    return send_from_directory('static', filename)
+    return app.send_static_file(filename)  # Serve static files from the 'static' folder
 
 # API endpoints
 @app.route("/api/v1/employees", methods=["GET"])
