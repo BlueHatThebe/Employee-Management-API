@@ -2,7 +2,6 @@ from flask import Flask, send_from_directory, jsonify, request, render_template
 from flask_cors import CORS
 import sqlite3
 import json
-import os
 
 app = Flask(__name__)
 CORS(app)
@@ -43,17 +42,12 @@ def handle_invalid_data_response(message):
 def handle_internal_error(error):
     return jsonify({"status": "error", "message": "An internal error occurred"}), 500
 
-# Serve static files
 @app.route("/", defaults={"filename": "index.html"})
 @app.route("/<path:filename>")
 def serve_static(filename):
-    if filename == "employeeDetails.html":
-        # Render employee-details.html from the templates folder
-        return render_template('employeeDetails.html')
-    if os.path.isfile(os.path.join('templates', filename)):
-        return send_from_directory('templates', filename)
-    else:
-        return jsonify({"status": "error", "message": "File not found"}), 404
+    if filename.endswith('.html'):
+        return render_template(filename)
+    return send_from_directory('static', filename)
 
 # API endpoints
 @app.route("/api/v1/employees", methods=["GET"])
@@ -69,9 +63,9 @@ def get_employees():
     except Exception as e:
         return handle_internal_error(e)
 
-@app.route("/api/v1/employees/<string:employeeId>", methods=["GET"])
+@app.route("/api/v1/employees/<int:employeeId>", methods=["GET"])
 def get_employee(employeeId):
-    is_valid, error = validate_employee_id(employeeId)
+    is_valid, error = validate_employee_id(str(employeeId))
     if not is_valid:
         return handle_invalid_data_response(error)
     
@@ -224,7 +218,7 @@ def init_db():
     # Create employees table
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS employees (
-            id TEXT PRIMARY KEY,
+            id INTEGER PRIMARY KEY,
             name TEXT NOT NULL,
             position TEXT NOT NULL,
             department TEXT NOT NULL,

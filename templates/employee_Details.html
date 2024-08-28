@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Details</title>
-    <link rel="stylesheet" href="/static/styles.css"> <!-- Ensure this path is correct -->
-    
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <style>
-        /* Center the heading */
         h3 {
             text-align: center;
         }
@@ -20,11 +18,12 @@
     </div>
     <button id="back-to-list">Back to Home</button>
 
-    <script src="/static/script.js"></script> <!-- Ensure this path is correct -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const urlParams = new URLSearchParams(window.location.search);
             const employeeId = urlParams.get('id');
+
             if (employeeId) {
                 fetch(`/api/v1/employees/${employeeId}`)
                     .then(response => {
@@ -37,7 +36,6 @@
                         const detailsDiv = document.getElementById('employee-details-div');
                         console.log(employee);
 
-                        // Ensure performance_reviews is an array and display them
                         const performanceReviews = Array.isArray(employee.data.performance_reviews)
                             ? employee.data.performance_reviews
                             : [];

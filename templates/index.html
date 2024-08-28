@@ -4,69 +4,92 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Management</title>
-    <!-- Directly link to static files -->
-    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"> <!-- Ensure this path is correct -->
+    <style>
+        .hidden {
+            display: none;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        .form-container {
+            margin: 10px 0;
+        }
+
+        #employee-list-container {
+            margin-top: 20px;
+            border-top: 2px solid #000;
+            padding-top: 20px;
+        }
+
+        .employee-item {
+            cursor: pointer;
+            color: blue;
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <h1>Employee Management</h1>
 
-    <!-- Add Employee Form -->
-    <div id="add-employee-div">
+    <!-- Buttons to Toggle Forms -->
+    <div>
+        <button id="show-add-employee-form">Show Add Employee Form</button>
+        <button id="show-update-form">Show Update Form</button>
+        <button id="show-review-form">Show Add Review Form</button>
+        <button id="show-deactivate-form">Show Deactivate Form</button>
+    </div>
+
+    <!-- Forms for Managing Employees -->
+    <div id="add-employee-form" class="form-container hidden">
         <h2>Add Employee</h2>
-        <form id="add-employee-form">
-            <input type="text" id="name" placeholder="Name" required />
-            <input type="text" id="position" placeholder="Position" required />
-            <input type="text" id="department" placeholder="Department" required />
-            <input type="text" id="contact" placeholder="Contact" />
+        <form>
+            <label for="name">Name:</label><input type="text" id="name"><br>
+            <label for="position">Position:</label><input type="text" id="position"><br>
+            <label for="department">Department:</label><input type="text" id="department"><br>
+            <label for="contact">Contact:</label><input type="text" id="contact"><br>
             <button type="submit">Add Employee</button>
         </form>
     </div>
 
-    <!-- Update Employee Section -->
-    <div id="update-employee-div" style="display: none;">
+    <div id="update-employee-form" class="form-container hidden">
         <h2>Update Employee</h2>
-        <form id="update-employee-form">
-            <input type="text" id="update-id" placeholder="Employee ID" required />
-            <input type="text" id="update-name" placeholder="Name" />
-            <input type="text" id="update-position" placeholder="Position" />
-            <input type="text" id="update-department" placeholder="Department" />
-            <input type="text" id="update-contact" placeholder="Contact" />
+        <form>
+            <label for="update-id">Employee ID:</label><input type="text" id="update-id"><br>
+            <label for="update-name">Name:</label><input type="text" id="update-name"><br>
+            <label for="update-position">Position:</label><input type="text" id="update-position"><br>
+            <label for="update-department">Department:</label><input type="text" id="update-department"><br>
+            <label for="update-contact">Contact:</label><input type="text" id="update-contact"><br>
             <button type="submit">Update Employee</button>
         </form>
-        <button id="cancel-update">Cancel</button>
     </div>
 
-    <!-- Add Performance Review Form -->
-    <div id="add-review-div">
+    <div id="add-review-form" class="form-container hidden">
         <h2>Add Performance Review</h2>
-        <form id="add-review-form">
-            <input type="text" id="review-id" placeholder="Employee ID" required />
-            <textarea id="review-text" placeholder="Performance Review" rows="4" required></textarea>
+        <form>
+            <label for="review-id">Employee ID:</label><input type="text" id="review-id"><br>
+            <label for="review-text">Review:</label><textarea id="review-text" rows="4" cols="50"></textarea><br>
             <button type="submit">Add Review</button>
         </form>
     </div>
 
-    <!-- Deactivate Employee Form -->
-    <div id="deactivate-employee-div">
+    <div id="deactivate-employee-form" class="form-container hidden">
         <h2>Deactivate Employee</h2>
-        <form id="deactivate-employee-form">
-            <input type="text" id="deactivate-id" placeholder="Employee ID" required />
-            <button type="submit">Deactivate</button>
+        <form>
+            <label for="deactivate-id">Employee ID:</label><input type="text" id="deactivate-id"><br>
+            <button type="submit">Deactivate Employee</button>
         </form>
     </div>
 
-    <!-- Employees List -->
-    <div id="employees-list-div">
-        <h2>Employees</h2>
+    <!-- Employee List Moved to Bottom -->
+    <div id="employee-list-container">
+        <h2>Employee List</h2>
         <ul id="employee-list-ul"></ul>
     </div>
 
-    <!-- Centered Update Employee Button -->
-    <div class="center-button-container">
-        <button id="show-update-form">Update Employee</button>
-    </div>
-
-    <!-- Directly link to JavaScript file -->
-    <script src="/static/script.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script> <!-- Ensure this path is correct -->
 </body>
 </html>
+
