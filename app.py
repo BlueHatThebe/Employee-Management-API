@@ -3,8 +3,7 @@ from flask_cors import CORS
 import sqlite3
 import json
 import os
-import pymysql
-pymysql.install_as_MySQLdb()
+
 
 app = Flask(__name__, static_folder='static')  # Ensure Flask knows where the static folder is
 CORS(app)
