@@ -4,7 +4,6 @@ import sqlite3
 import json
 import os
 
-
 app = Flask(__name__, static_folder='static')  # Ensure Flask knows where the static folder is
 CORS(app)
 
@@ -44,12 +43,18 @@ def handle_invalid_data_response(message):
 def handle_internal_error(error):
     return jsonify({"status": "error", "message": "An internal error occurred"}), 500
 
+# Serve static files
+@app.route('/static/<path:filename>')
+def serve_static(filename):
+    return send_from_directory(app.static_folder, filename)
+
+# Serve HTML files from root
 @app.route("/", defaults={"filename": "index.html"})
 @app.route("/<path:filename>")
-def serve_static(filename):
+def index(filename):
     if filename.endswith('.html'):
         return render_template(filename)
-    # Flask automatically serves static files from the 'static' folder
+    # For any other file types, serve them from the 'static' folder
     return send_from_directory(app.static_folder, filename)
 
 # API endpoints
@@ -238,4 +243,4 @@ if __name__ == "__main__":
     # Initialize the database
     init_db()
     # Run the Flask app
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
