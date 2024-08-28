@@ -4,7 +4,7 @@ import sqlite3
 import json
 import os
 
-app = Flask(__name__, static_folder='static')
+app = Flask(__name__, static_folder='static')  # Ensure Flask knows where the static folder is
 CORS(app)
 
 # Database connection
@@ -48,7 +48,8 @@ def handle_internal_error(error):
 def serve_static(filename):
     if filename.endswith('.html'):
         return render_template(filename)
-    return app.send_static_file(filename)  # Serve static files from the 'static' folder
+    # Flask automatically serves static files from the 'static' folder
+    return send_from_directory(app.static_folder, filename)
 
 # API endpoints
 @app.route("/api/v1/employees", methods=["GET"])
@@ -106,9 +107,9 @@ def add_employee():
     except Exception as e:
         return handle_internal_error(e)
 
-@app.route("/api/v1/employees/<string:employeeId>", methods=["PUT"])
+@app.route("/api/v1/employees/<int:employeeId>", methods=["PUT"])
 def update_employee(employeeId):
-    is_valid, error = validate_employee_id(employeeId)
+    is_valid, error = validate_employee_id(str(employeeId))
     if not is_valid:
         return handle_invalid_data_response(error)
     
@@ -137,9 +138,9 @@ def update_employee(employeeId):
     except Exception as e:
         return handle_internal_error(e)
 
-@app.route("/api/v1/employees/<string:employeeId>", methods=["DELETE"])
+@app.route("/api/v1/employees/<int:employeeId>", methods=["DELETE"])
 def delete_employee(employeeId):
-    is_valid, error = validate_employee_id(employeeId)
+    is_valid, error = validate_employee_id(str(employeeId))
     if not is_valid:
         return handle_invalid_data_response(error)
     
@@ -157,9 +158,9 @@ def delete_employee(employeeId):
     except Exception as e:
         return handle_internal_error(e)
 
-@app.route("/api/v1/employees/<string:employeeId>/reviews", methods=["POST"])
+@app.route("/api/v1/employees/<int:employeeId>/reviews", methods=["POST"])
 def add_performance_review(employeeId):
-    is_valid, error = validate_employee_id(employeeId)
+    is_valid, error = validate_employee_id(str(employeeId))
     if not is_valid:
         return handle_invalid_data_response(error)
     
@@ -188,9 +189,9 @@ def add_performance_review(employeeId):
     except Exception as e:
         return handle_internal_error(e)
 
-@app.route("/api/v1/employees/<string:employeeId>/deactivate", methods=["PATCH"])
+@app.route("/api/v1/employees/<int:employeeId>/deactivate", methods=["PATCH"])
 def deactivate_employee(employeeId):
-    is_valid, error = validate_employee_id(employeeId)
+    is_valid, error = validate_employee_id(str(employeeId))
     if not is_valid:
         return handle_invalid_data_response(error)
     
