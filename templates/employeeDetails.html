@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+        }
+        .employee-detail {
+            margin-bottom: 20px;
+        }
+        .employee-detail strong {
+            display: inline-block;
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Employee Details</h1>
+        <div class="employee-detail">
+            <strong>Name:</strong> <span>{{ employee.name }}</span>
+        </div>
+        <div class="employee-detail">
+            <strong>Position:</strong> <span>{{ employee.position }}</span>
+        </div>
+        <div class="employee-detail">
+            <strong>Department:</strong> <span>{{ employee.department }}</span>
+        </div>
+        <div class="employee-detail">
+            <strong>Contact:</strong> <span>{{ employee.contact }}</span>
+        </div>
+        <div class="employee-detail">
+            <strong>Performance Reviews:</strong>
+            <ul>
+                {% for review in employee.performance_reviews %}
+                    <li>{{ review }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

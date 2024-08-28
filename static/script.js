@@ -85,7 +85,7 @@ async function loadEmployees() {
                 li.className = 'employee-item';
                 li.textContent = `ID: ${employee.id}, Name: ${employee.name}, Position: ${employee.position}, Department: ${employee.department}, Contact: ${employee.contact}`;
                 li.addEventListener('click', () => {
-                    window.location.href = `/employee_details.html?id=${employee.id}`;
+                    window.location.href = `/employeeDetails.html?id=${employee.id}`;
                 });
                 ul.appendChild(li);
             });

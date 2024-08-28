@@ -2,7 +2,6 @@ from flask import Flask, send_from_directory, jsonify, request, render_template
 from flask_cors import CORS
 import sqlite3
 import json
-import os
 
 app = Flask(__name__, static_folder='static')  # Ensure Flask knows where the static folder is
 CORS(app)
@@ -218,6 +217,29 @@ def deactivate_employee(employeeId):
         return jsonify({"status": "success", "message": "Employee deactivated"}), 200
     except Exception as e:
         return handle_internal_error(e)
+
+@app.route("/employeeDetails.html")
+def employee_details():
+    # Retrieve the 'id' from query parameters
+    employee_id = request.args.get('id')
+    
+    if not employee_id:
+        return handle_invalid_data_response("Employee ID is required")
+    
+    is_valid, error = validate_employee_id(employee_id)
+    if not is_valid:
+        return handle_invalid_data_response(error)
+    
+    employee = get_employee_by_id(employee_id)
+    if not employee:
+        return jsonify({"status": "error", "message": "Employee not found"}), 404
+    
+    # Convert employee data to a dictionary
+    employee_data = dict(employee)
+    employee_data['performance_reviews'] = json.loads(employee_data['performance_reviews'])
+    
+    # Render the template and pass employee data to it
+    return render_template('employeeDetails.html', employee=employee_data)
 
 def init_db():
     conn = sqlite3.connect('employees.db')
